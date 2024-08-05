@@ -1,3 +1,4 @@
+import re
 from bs4 import BeautifulSoup
 
 # read content of the index html and put it into the src file as a string
@@ -43,4 +44,29 @@ print(post_div) """
 print(div_next)
 div_find_next = soup.find('div', {'class' : 'post__title'}).find_next().text
 print(div_find_next) """
-# find_next_sibling() .find_previouse_sibling()
+# find_next_sibling() .find_previous_sibling()
+""" next_sib = soup.find(class_ = 'post__title').find_next_sibling()
+print(next_sib) 
+prev_sib = soup.find(class_ = 'post__date').find_previous_sibling()
+print(prev_sib)
+post_title = soup.find(class_ = 'post__date').find_previous_sibling().find_next()\
+.text
+print(post_title) """
+
+#links = soup.find(class_="some__links").find_all("a")
+links = soup.find(class_="some__links").find_all("a")
+# print(links)
+""" for link in links:
+    link_href = link.get('href')
+    link_href1 = link['href']
+    link_data_attr = link.get("data-attr")
+    link_data_attr1 = link['data-attr']
+    link_text = link.text
+    
+    print(f'{link_text}: {link_href1}')
+    print(link_data_attr1)  """
+""" find_text = soup.find("a", text=re.compile("Одежда"))
+print(find_text) """
+
+find_all_clothes = soup.find_all(text = re.compile("([Оо]дежда)"))
+print(find_all_clothes)
