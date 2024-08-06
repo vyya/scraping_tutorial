@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-url = "https://health-diet.ru/table_calorie/?utm_source=leftMenu&utm_medium=table_calorie"
+import json
+""" url = "https://health-diet.ru/table_calorie/?utm_source=leftMenu&utm_medium=table_calorie"
 
 headers = {
     "Accept" : "*/*",
@@ -9,4 +10,20 @@ headers = {
 req = requests.get( url = "https://health-diet.ru/table_calorie/?utm_source=leftMenu&utm_medium=table_calorie", \
                    headers=headers)
 src = req.text
-print(src)
+# print(src)
+with open("index.html", "w") as file:
+    file.write(src) """
+with open("index.html") as file:
+    src = file.read()
+soup = BeautifulSoup(src, "lxml")
+all_products_hrefs = soup.find_all(class_="mzr-tc-group-item-href")
+
+all_categories_dict = {}
+for item in all_products_hrefs:
+    item_text = item.text
+    item_href = 'https://health-diet.ru' + item['href']
+    print(f'{item_text}: {item_href}')
+    all_categories_dict[item_text] = item_href
+
+with open('all_categories_dict.json', 'w') as file:
+    json.dump(all_categories_dict, file, indent=4, ensure_ascii=False)    
